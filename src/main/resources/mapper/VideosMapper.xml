@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.programlanguageranking.demo.dao.VideoDao" >
+    <resultMap id="videosMap" type="com.programlanguageranking.demo.entity.Video" >
+        <id column="videoId" property="videoId" jdbcType="INTEGER" />
+        <result column="up_name" property="up_name" jdbcType="VARCHAR" />
+        <result column="time" property="time" jdbcType="VARCHAR" />
+        <result column="so_icon" property="so_icon" jdbcType="VARCHAR" />
+        <result column="col3" property="col3" jdbcType="VARCHAR" />
+        <result column="tag" property="tag" jdbcType="VARCHAR" />
+        <result column="title_link" property="title_link" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="score" property="score" jdbcType="VARCHAR" />
+        <result column="des" property="des" jdbcType="VARCHAR" />
+        <result column="videoImage" property="videoImage" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--查询所有的视频-->
+    <select id="SearchAllVideos" resultMap="videosMap">
+       select *
+       from video
+       order by videoId
+    </select>
+
+    <!--根据id查询所有的视频-->
+    <select id="SearchByVideoId"  parameterType="java.lang.Integer" resultType="Video">
+       select *
+       from video
+       where videoId=#{id}
+    </select>
+
+    <!--搜索视频的功能-->
+    <select id="SearchByKeywords" parameterType="java.lang.String" resultMap="videosMap">
+        select *
+        from video
+        <where>
+              title like CONCAT('%', #{_parameter}, '%')
+              or des like CONCAT('%', #{_parameter}, '%')
+        </where>
+        order by videoId asc
+    </select>
+</mapper>

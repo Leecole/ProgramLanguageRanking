@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.programlanguageranking.demo.dao.RankingDao" >
+    <resultMap id="hashmap" type="com.programlanguageranking.demo.entity.LanguageRanking" >
+        <id column="rankId" property="rankId" jdbcType="INTEGER" />
+        <result column="projectName" property="projectName" jdbcType="VARCHAR" />
+        <result column="owner" property="owner" jdbcType="VARCHAR" />
+        <result column="stars" property="stars" jdbcType="INTEGER" />
+        <result column="watchers" property="watchers" jdbcType="INTEGER" />
+        <result column="language" property="language" jdbcType="VARCHAR" />
+        <result column="forks" property="forks" jdbcType="INTEGER" />
+        <result column="icon" property="icon" jdbcType="VARCHAR" />
+        <result column="image" property="image" jdbcType="VARCHAR" />
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+        <result column="adminId" property="adminId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--根据starts获取使用最多的排行榜语言-->
+    <select id="SearchAllLanguage" resultMap="hashmap">
+         select *
+         from languageranking
+         order by stars desc
+    </select>
+
+    <select id="ListAllProjectType" resultMap="hashmap">
+        select language,stars,watchers,forks
+         from languageranking
+         GROUP BY language,watchers,forks,stars
+         order by max(stars) desc
+    </select>
+</mapper>
